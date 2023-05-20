@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    min-width:350px;
+    width:350px;
+    max-width: 350px;
+    overflow: scroll;
+}
+.navbar {
+    max-height: 2.5rem;
+    min-height: 2.5rem;
+    height: 2.5rem;
+}
+.alert {
+    padding:0.25rem;
+}
+.stats {
+    width:100%;
+}
