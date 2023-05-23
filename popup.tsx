@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useStorage } from "@plasmohq/storage/hook"
 
-// const headers = {
-//     "X-BLOBR-KEY": 'azpexrC4SFHKq2JuWVEb7BvxZIdU2P1u'
-// }
 import "./style.css"
 
 function DappStats({ appURL, apiKey }) {
