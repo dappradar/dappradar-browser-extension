@@ -93,6 +93,7 @@ function IndexPopup() {
     const [appURL, setAppURL] = useState(null);
     const [apiKey] = useStorage<string>("apiKey")
     const [apiConnected] = useStorage<string>("apiKey")
+    const [user] = useStorage<object>("user")
 
 
     useEffect(() => {
