@@ -1,6 +1,6 @@
 {
   "name": "dappradar-browser-extension",
-  "displayName": "Dappradar browser extension",
+  "displayName": "DappRadar Browser extension",
   "version": "0.0.1",
   "description": "A DappRadar Browser extension",
   "author": "dragos",
@@ -31,7 +31,11 @@
   },
   "manifest": {
     "host_permissions": [
-      "https://*/*"
+      "https://*/*",
+      "https://dappradar.com/*"
+    ],
+    "permissions": [
+      "cookies"
     ]
   }
 }
