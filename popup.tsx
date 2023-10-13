@@ -4,18 +4,21 @@ import { useStorage } from "@plasmohq/storage/hook"
 
 import "./style.css"
 
-function DappInfo({ appURL, apiKey }) {
-  const [stats, setStats] = useState(null)
+import { isLoggedIn } from "~background"
+
+function DappInfo({ appURL, user }) {
+  const [dapp, setDapp] = useState(null)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setLoading(true)
     const encodedURL = encodeURIComponent(appURL)
     fetch(
-      `https://api.dappradar.com/xs3c89q0fi5chjwa/dapps/search?website=${encodedURL}`,
+      `https://exqrgsqsn7.execute-api.eu-central-1.amazonaws.com/prod/v1/dapps/extension/search?website=${encodedURL}`,
       {
         headers: {
-          "X-BLOBR-KEY": apiKey
+          Authorization: `Bearer ${user && user.token}`
+          //   Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2OTcxOTczMzUsImV4cCI6MTY5OTg3NTczNSwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiZ3l0aXMrYTEwMEBkYXBwcmFkYXIuY29tfHVuY29uZmlybWVkIiwiaWQiOiIzNTMzMzc3Yi01OGYwLTQxZDUtYmIwMi1lYWIyZjAwNmVmOWYiLCJwcm8iOnRydWUsImFkZHJlc3MiOiIweEYwMEY0REMwNmRGM0FkZGNEMzU5NUM5MzNDMTI5ODdENTAxRmI3MTciLCJzYWx0IjoiMTE0Mjk2MWViOCJ9.AcHVDRxkQzMgYSauNQ3BkzOxkE1ZCzAgJpbhh6qmbmR1fP-eP1XdUcCWwP6oRRv7ol-G5InY8WkR6C_AEx6AbbKbYl-3xVFi2_7BJkmMr3nv1XZb5nu82rHIftEecYScPyWz62KzF6nuwItzDvjetf4EbBU8cMvyt0dl9EqoVZUiyYCllvvSE_E2hZWaWhq3NhbT7z2kpq6ynl_CEKcX_Ec7VVEiXEzaei7dooixnfViUHfJZNlQyjS6TikomrbPhhOTjPI_2YB3nraaoT68x0ffS0r3nonhjPqctbSUJe0p8Levha-7b_GtxZ87TtlyB17Qd6HYdDeG0teAfXSyv1tseA9zh-cyWNRoVVYgbS6QkzGHmWhHAebWjvboPCHPWsCjAT9Z0COyLDiYgEr5smesK-GU1uWXtj_S98VnXshpBoE8t9CQfYqOLcOjDF9areDmH1DLOyiEdDCfKArLtKnNNrxRsJJuZfqH2iRkspLgc-nxxqnIcDCCzC-ryQneTlcJJld7APJcxdcEUbhUBx2JjDvkEXrGtMe5whHiMTVPnIW6GDMblG4hOlAtdXzRbKmU0W5Gq5U3JGpbSbcqcErorsgiXGjftnSHaX1S7LkMOnE4JDwhZhbJYy2B-jAlGFQ7wwvUmNctdmxPb5aXU0NE3lY9zDeeAN6_Fkoq3_0`
         }
       }
     )
@@ -24,7 +27,7 @@ function DappInfo({ appURL, apiKey }) {
         console.log("Data", data)
         setLoading(false)
         if (data.success) {
-          setStats(data.results[0])
+          setDapp(data.results[0])
         }
       })
       .catch((error) => {
@@ -33,7 +36,7 @@ function DappInfo({ appURL, apiKey }) {
       })
   }, [appURL])
 
-  if (!stats && loading) {
+  if (!dapp && loading) {
     return (
       <div className="flex flex-col place-content-center py-16">
         <h3 className="text-accent text-lg text-center">
@@ -45,53 +48,35 @@ function DappInfo({ appURL, apiKey }) {
     )
   }
 
-  if (!loading && stats) {
+  if (!loading && dapp) {
     return (
       <div>
         <Header
-          logo={stats.logo}
-          name={stats.name}
-          categories={stats.categories}
-          description={stats.description}
-          chains={stats.chains}
+          logo={dapp.logo}
+          name={dapp.name}
+          categories={dapp.categories}
+          description={dapp.description}
+          chains={dapp.chains}
         />
-        <DataStats dappId={stats.dappId} apiKey={apiKey} />
-        <CallToAction name={stats.name} url={stats.link} />
+        <DataStats dapp={dapp} />
+        <CallToAction name={dapp.name} url={dapp.link} />
       </div>
     )
   }
   return <NothingFound />
 }
 
-function DataStats({ dappId, apiKey }) {
-  const [stats, setStats] = useState(null)
-  useEffect(() => {
-    fetch(`https://api.dappradar.com/xs3c89q0fi5chjwa/dapps/${dappId}`, {
-      headers: {
-        "X-BLOBR-KEY": apiKey
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          setStats(data.results)
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching dapp stats:", error)
-      })
-  }, [dappId])
-
-  if (!stats) {
+function DataStats({ dapp }) {
+  if (!dapp) {
     return "Something was wrong. Please try again in a new tab."
   }
 
   return (
     <div className="py-2">
       <Stats
-        stats={stats.metrics}
-        name={stats.name}
-        categories={stats.categories}
+        metrics={dapp.metrics}
+        name={dapp.name}
+        categories={dapp.categories}
       />
     </div>
   )
@@ -100,7 +85,7 @@ function DataStats({ dappId, apiKey }) {
 function IndexPopup() {
   const [appURL, setAppURL] = useState(null)
   const [apiKey] = useStorage<string>("apiKey")
-  const [apiConnected] = useStorage<string>("apiKey")
+  const [apiConnected] = useStorage<string>("apiKey") // remove and search for references
   const [user] = useStorage<any>("user")
 
   useEffect(() => {
@@ -121,16 +106,37 @@ function IndexPopup() {
   return (
     <div>
       <Navbar user={user ? user.user : null} />
-      {!user && <AuthenticateContent />}
+      {/* <AuthenticateContent /> */}
+      {/* <GoProContent /> */}
+
+      <div className="container px-2">
+        <DappInfo appURL={appURL} user={user} />
+      </div>
+      {/* {!user && <AuthenticateContent />}
       {user && user.user && !user.user.pro && <GoProContent />}
       {user && user.user && user.user.pro && (
         <div className="container px-2">
-          <DappInfo appURL={appURL} apiKey={apiKey} />
+          <DappInfo appURL={appURL} user={user} />
         </div>
-      )}
+      )} */}
     </div>
   )
 }
+
+const SvgRefreshIcon = (props) => (
+  <svg
+    width={15}
+    height={16}
+    viewBox="0 0 15 16"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}>
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M1.5 0a1 1 0 0 1 1 1v2.101a7.002 7.002 0 0 1 11.601 2.566 1 1 0 1 1-1.885.666A5.002 5.002 0 0 0 3.499 5H6.5a1 1 0 0 1 0 2h-5a1 1 0 0 1-1-1V1a1 1 0 0 1 1-1Zm.008 9.057a1 1 0 0 1 1.276.61A5.002 5.002 0 0 0 11.501 11H8.5a1 1 0 1 1 0-2h5a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-2.101A7.002 7.002 0 0 1 .899 10.333a1 1 0 0 1 .61-1.276Z"
+    />
+  </svg>
+)
 
 const Navbar = ({ user }) => (
   <div className="navbar bg-primary text-primary-content">
@@ -149,6 +155,9 @@ const Navbar = ({ user }) => (
       </div>
     </div>
     <div className="navbar-end">
+      <div className="btn btn-ghost btn-circle p-1" onClick={isLoggedIn}>
+        <SvgRefreshIcon width="16px" height="16px" fill="rgb(204, 226, 255)" />
+      </div>
       <div className="dropdown dropdown-bottom dropdown-end">
         <label tabIndex="0" className="btn btn-ghost btn-circle p-1">
           <svg
@@ -173,7 +182,8 @@ const Navbar = ({ user }) => (
                 <img
                   alt="user"
                   style={{
-                    width: "20px"
+                    width: "20px",
+                    borderRadius: "50%"
                   }}
                   src={user.nftAvatar}
                 />
@@ -188,9 +198,6 @@ const Navbar = ({ user }) => (
               </a>
             </li>
           )}
-          <li>
-            <a onClick={() => chrome.runtime.openOptionsPage()}>Settings</a>
-          </li>
           <li>
             <a href="https://dappradar.com/developers" target="_blank">
               Contribute
@@ -232,7 +239,7 @@ const Header = ({ logo, name, categories, description, chains }) => (
   </div>
 )
 
-const Stats = ({ stats, name, categories }) => (
+const Stats = ({ metrics, name, categories }) => (
   <div>
     <div className="alert alert-success shadow-lg mt-1">
       <div>
@@ -274,25 +281,25 @@ const Stats = ({ stats, name, categories }) => (
       <div className="stat place-items-center">
         <div className="stat-title">UAW (24h)</div>
         <div className="stat-value text-sm">
-          {formatCompactNumber(stats.uaw)}
+          {formatCompactNumber(metrics.uaw)}
         </div>
-        <div className="stat-desc">{stats.uawPercentageChange}%</div>
+        <div className="stat-desc">{metrics.uawPercentageChange}%</div>
       </div>
 
       <div className="stat place-items-center">
         <div className="stat-title">Volume (24h)</div>
         <div className="stat-value text-sm">
-          ${formatCompactNumber(stats.volume)}
+          ${formatCompactNumber(metrics.volume)}
         </div>
-        <div className="stat-desc">{stats.volumePercentageChange}%</div>
+        <div className="stat-desc">{metrics.volumePercentageChange}%</div>
       </div>
 
       <div className="stat place-items-center">
         <div className="stat-title">Txs (24h)</div>
         <div className="stat-value text-sm">
-          {formatCompactNumber(stats.transactions)}
+          {formatCompactNumber(metrics.transactions)}
         </div>
-        <div className="stat-desc">{stats.transactionsPercentageChange}%</div>
+        <div className="stat-desc">{metrics.transactionsPercentageChange}%</div>
       </div>
     </div>
   </div>
@@ -401,11 +408,19 @@ const Loader = () => (
 const AuthenticateContent = () => (
   <div className="card bg-neutral text-neutral-content m-2">
     <div className="card-body p-3">
-      <h2 className="card-title">Authenticate to use DappRadar Unleashed</h2>
-      {/* <p>Set up your extension with the DappRadar API Key.</p> */}
+      <h2 className="card-title">
+        Authenticate to use <br />
+        DappRadar Unleashed
+      </h2>
+      <p>
+        We are thrilled to have you explore the enhanced features of DappRadar
+        Unleashed through its browser extension. However, to ensure an optimized
+        and secure user experience, it's essential to authenticate user status
+        before diving in.
+      </p>
       <div className="card-actions justify-start">
         <a
-          href="https://dappradar.com/auth"
+          href="https://dappradar.com/auth?source=extension"
           target="_blank"
           className="btn btn-sm btn-block btn-primary normal-case">
           Authenticate
@@ -419,13 +434,18 @@ const GoProContent = () => (
   <div className="card bg-neutral text-neutral-content m-2">
     <div className="card-body p-3">
       <h2 className="card-title">Become PRO</h2>
-      <p>Set up your extension with the DappRadar API Key.</p>
+      <p>
+        To fully utilize the extensive features of DappRadar Unleashed, it's
+        essential to be a DappRadar PRO member. As a PRO member, you gain
+        exclusive access to advanced functionalities and insights that empower
+        your decentralized application (dapp) interactions.
+      </p>
       <div className="card-actions justify-start">
         <a
           href="https://dappradar.com/account/pro-membership"
           target="_blank"
-          className="btn btn-sm btn-block btn-primary normal-case">
-          Become PRO
+          className="btn btn-sm btn-block btn-primary normal-case violet-pink">
+          Go PRO
         </a>
       </div>
     </div>

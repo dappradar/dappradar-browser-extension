@@ -27,9 +27,13 @@ chrome.cookies.onChanged.addListener((changeInfo) => {
   }
 })
 
-const isLoggedIn = async () => {
+export const clear = async () => {
+  console.log("clear")
+  storage.set("user", null)
+}
+
+export const isLoggedIn = async () => {
   const user = await storage.get<any>("user")
-  // const [jwt, setJwt] = useStorage<object>("jwt")
   console.log("is logged in running")
   chrome.cookies.get(
     { url: "https://dappradar.com", name: "jwt" },

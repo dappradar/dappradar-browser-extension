@@ -22,4 +22,22 @@ body {
 
 .card-title {
   text-align: center;
+  justify-content: center;
+}
+
+.violet-pink {
+  background-color: rgb(197, 16, 239);
+  color: #fff;
+  border-color: transparent;
+  transition: background-color 0.2s ease 0s, color 0.2s ease 0s,
+    border-color 0.2s ease 0s;
+}
+
+.violet-pink:hover {
+  background-color: rgb(170, 35, 219);
+  border-color: transparent;
+}
+
+.navbar {
+  min-height: 50px;
 }
