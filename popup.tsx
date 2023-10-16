@@ -1,10 +1,23 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 
-import { useStorage } from "@plasmohq/storage/hook"
 
-import "./style.css"
 
-import { isLoggedIn } from "~background"
+import { useStorage } from "@plasmohq/storage/hook";
+
+
+
+
+
+
+import "./style.css";
+
+
+
+import { isLoggedIn } from "~background";
+
+
+
+
 
 function DappInfo({ appURL, user }) {
   const [dapp, setDapp] = useState(null)
@@ -18,7 +31,6 @@ function DappInfo({ appURL, user }) {
       {
         headers: {
           Authorization: `Bearer ${user && user.token}`
-          //   Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2OTcxOTczMzUsImV4cCI6MTY5OTg3NTczNSwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiZ3l0aXMrYTEwMEBkYXBwcmFkYXIuY29tfHVuY29uZmlybWVkIiwiaWQiOiIzNTMzMzc3Yi01OGYwLTQxZDUtYmIwMi1lYWIyZjAwNmVmOWYiLCJwcm8iOnRydWUsImFkZHJlc3MiOiIweEYwMEY0REMwNmRGM0FkZGNEMzU5NUM5MzNDMTI5ODdENTAxRmI3MTciLCJzYWx0IjoiMTE0Mjk2MWViOCJ9.AcHVDRxkQzMgYSauNQ3BkzOxkE1ZCzAgJpbhh6qmbmR1fP-eP1XdUcCWwP6oRRv7ol-G5InY8WkR6C_AEx6AbbKbYl-3xVFi2_7BJkmMr3nv1XZb5nu82rHIftEecYScPyWz62KzF6nuwItzDvjetf4EbBU8cMvyt0dl9EqoVZUiyYCllvvSE_E2hZWaWhq3NhbT7z2kpq6ynl_CEKcX_Ec7VVEiXEzaei7dooixnfViUHfJZNlQyjS6TikomrbPhhOTjPI_2YB3nraaoT68x0ffS0r3nonhjPqctbSUJe0p8Levha-7b_GtxZ87TtlyB17Qd6HYdDeG0teAfXSyv1tseA9zh-cyWNRoVVYgbS6QkzGHmWhHAebWjvboPCHPWsCjAT9Z0COyLDiYgEr5smesK-GU1uWXtj_S98VnXshpBoE8t9CQfYqOLcOjDF9areDmH1DLOyiEdDCfKArLtKnNNrxRsJJuZfqH2iRkspLgc-nxxqnIcDCCzC-ryQneTlcJJld7APJcxdcEUbhUBx2JjDvkEXrGtMe5whHiMTVPnIW6GDMblG4hOlAtdXzRbKmU0W5Gq5U3JGpbSbcqcErorsgiXGjftnSHaX1S7LkMOnE4JDwhZhbJYy2B-jAlGFQ7wwvUmNctdmxPb5aXU0NE3lY9zDeeAN6_Fkoq3_0`
         }
       }
     )
@@ -34,7 +46,7 @@ function DappInfo({ appURL, user }) {
         setLoading(false)
         console.error("Error fetching dapp stats:", error)
       })
-  }, [appURL])
+  }, [appURL, JSON.stringify(user)])
 
   if (!dapp && loading) {
     return (
@@ -89,7 +101,6 @@ function IndexPopup() {
   const [user] = useStorage<any>("user")
 
   useEffect(() => {
-    console.log("hello")
     chrome.runtime.sendMessage({ action: "getCurrentAppURL" }, (response) => {
       if (response.currentAppURL) {
         setAppURL(response.currentAppURL)
@@ -97,28 +108,20 @@ function IndexPopup() {
     })
   }, [])
 
-  console.log("user", user)
-
-  //   if (!appURL) {
-  //     return <NotValidURL />
-  //   }
+  if (!appURL) {
+    return <NotValidURL />
+  }
 
   return (
     <div>
       <Navbar user={user ? user.user : null} />
-      {/* <AuthenticateContent /> */}
-      {/* <GoProContent /> */}
-
-      <div className="container px-2">
-        <DappInfo appURL={appURL} user={user} />
-      </div>
-      {/* {!user && <AuthenticateContent />}
+      {!user && <AuthenticateContent />}
       {user && user.user && !user.user.pro && <GoProContent />}
       {user && user.user && user.user.pro && (
         <div className="container px-2">
           <DappInfo appURL={appURL} user={user} />
         </div>
-      )} */}
+      )}
     </div>
   )
 }
@@ -225,7 +228,7 @@ const Header = ({ logo, name, categories, description, chains }) => (
     </div>
     <div className="basis-2/3">
       <h2 className="text-xl">{name}</h2>
-      <div className="meta">
+      <div className="meta mb-4">
         {categories &&
           categories.map((category, index) => (
             <div key={index} className="badge badge-primary badge-sm">
@@ -325,7 +328,7 @@ const CallToAction = ({ name, url }) => (
 )
 
 const ChainBadges = ({ chains }) => (
-  <div className="inline-block">
+  <div className="inline-block mt-4">
     {chains.slice(0, 2).map((chain, index) => (
       <div
         key={index}

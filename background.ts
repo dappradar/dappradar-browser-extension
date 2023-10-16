@@ -27,6 +27,7 @@ chrome.cookies.onChanged.addListener((changeInfo) => {
   }
 })
 
+// used for testing
 export const clear = async () => {
   console.log("clear")
   storage.set("user", null)
