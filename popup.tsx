@@ -1,23 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
 
+import { useStorage } from "@plasmohq/storage/hook"
 
+import "./style.css"
 
-import { useStorage } from "@plasmohq/storage/hook";
-
-
-
-
-
-
-import "./style.css";
-
-
-
-import { isLoggedIn } from "~background";
-
-
-
-
+import { isLoggedIn } from "~background"
 
 function DappInfo({ appURL, user }) {
   const [dapp, setDapp] = useState(null)
@@ -202,13 +189,24 @@ const Navbar = ({ user }) => (
             </li>
           )}
           <li>
-            <a href="https://dappradar.com/developers" target="_blank">
+            <a
+              href="https://dappradar.com/developers?utm_source=developers&utm_medium=extension&utm_campaign=chrome-extension"
+              target="_blank">
               Contribute
             </a>
           </li>
           <li>
-            <a href="https://dappradar.com/api" target="_blank">
+            <a
+              href="https://dappradar.com/api?utm_source=api&utm_medium=extension&utm_campaign=chrome-extension"
+              target="_blank">
               DappRadar API
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://docs.dappradar.com/?utm_source=documentation&utm_medium=extension&utm_campaign=chrome-extension"
+              target="_blank">
+              Documentation
             </a>
           </li>
         </ul>
@@ -317,7 +315,7 @@ const CallToAction = ({ name, url }) => (
       </p>
       <div className="card-actions justify-center">
         <a
-          href={url}
+          href={`${url}?utm_source=SDP&utm_medium=extension&utm_campaign=chrome-extension`}
           target="_blank"
           className="btn btn-sm btn-primary normal-case">
           Dive deeper into {name}
@@ -423,7 +421,7 @@ const AuthenticateContent = () => (
       </p>
       <div className="card-actions justify-start">
         <a
-          href="https://dappradar.com/auth?source=extension"
+          href="https://dappradar.com/auth?source=extension&utm_source=authentication&utm_medium=extension&utm_campaign=chrome-extension"
           target="_blank"
           className="btn btn-sm btn-block btn-primary normal-case">
           Authenticate
@@ -445,7 +443,7 @@ const GoProContent = () => (
       </p>
       <div className="card-actions justify-start">
         <a
-          href="https://dappradar.com/account/pro-membership"
+          href="https://dappradar.com/account/pro-membership?utm_source=pro&utm_medium=extension&utm_campaign=chrome-extension"
           target="_blank"
           className="btn btn-sm btn-block btn-primary normal-case violet-pink">
           Go PRO
