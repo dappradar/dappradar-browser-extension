@@ -1,23 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
 
+import { useStorage } from "@plasmohq/storage/hook"
 
+import "./style.css"
 
-import { useStorage } from "@plasmohq/storage/hook";
-
-
-
-
-
-
-import "./style.css";
-
-
-
-import { isLoggedIn } from "~background";
-
-
-
-
+import { isLoggedIn } from "~background"
 
 function DappInfo({ appURL, user }) {
   const [dapp, setDapp] = useState(null)
@@ -182,14 +169,16 @@ const Navbar = ({ user }) => (
           {user && (
             <li>
               <a>
-                <img
-                  alt="user"
-                  style={{
-                    width: "20px",
-                    borderRadius: "50%"
-                  }}
-                  src={user.nftAvatar}
-                />
+                {user.nftAvatar && (
+                  <img
+                    alt="user"
+                    style={{
+                      width: "20px",
+                      borderRadius: "50%"
+                    }}
+                    src={user.nftAvatar}
+                  />
+                )}
                 <span
                   style={{
                     maxWidth: "145px",
