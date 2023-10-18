@@ -1,10 +1,23 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 
-import { useStorage } from "@plasmohq/storage/hook"
 
-import "./style.css"
 
-import { isLoggedIn } from "~background"
+import { useStorage } from "@plasmohq/storage/hook";
+
+
+
+
+
+
+import "./style.css";
+
+
+
+import { isLoggedIn } from "~background";
+
+
+
+
 
 function DappInfo({ appURL, user }) {
   const [dapp, setDapp] = useState(null)
@@ -355,7 +368,7 @@ const NothingFound = () => (
       </p>
       <div className="card-actions justify-start">
         <a
-          href="https://dappradar.com/developers"
+          href="https://dappradar.com/developers?utm_source=developers&utm_medium=extension&utm_campaign=chrome-extension"
           target="_blank"
           className="btn btn-sm btn-block btn-primary normal-case">
           List this dapp
