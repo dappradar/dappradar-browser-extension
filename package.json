@@ -1,7 +1,7 @@
 {
   "name": "dappradar-browser-extension",
   "displayName": "DappRadar",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Experience the World's Dapp Store right from your browser with the DappRadar extension. DappRadar - your trustworthy companion in the world of decentralized applications (dapps). This extension seamlessly integrates with your browsing experience, empowering you to interact confidently with dapps, armed with crucial insights and safety verifications.",
   "author": "dragos",
   "packageManager": "npm@8.19.2",
