@@ -6,9 +6,23 @@ import "./style.css"
 
 import { isLoggedIn } from "~background"
 
+import "https://www.googletagmanager.com/gtag/js?id=$PLASMO_PUBLIC_GTAG_ID"
+
 function DappInfo({ appURL, user }) {
   const [dapp, setDapp] = useState(null)
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    window.dataLayer = window.dataLayer || []
+    window.gtag = function gtag() {
+      window.dataLayer.push(arguments) // eslint-disable-line
+    }
+    window.gtag("js", new Date())
+    window.gtag("config", process.env.PLASMO_PUBLIC_GTAG_ID, {
+      page_path: "/popup",
+      debug_mode: true
+    })
+  }, [])
 
   useEffect(() => {
     setLoading(true)
