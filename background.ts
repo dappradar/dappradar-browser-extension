@@ -54,6 +54,16 @@ export const isLoggedIn = async () => {
               console.log("data.token", user)
               if (!user || (data.token !== user && user.token)) {
                 storage.set("user", data)
+                window.gtag(
+                  "event",
+                  `BrowserExtension Authenticated ${
+                    data.user.pro ? "Pro User" : "User"
+                  }`,
+                  {
+                    event_category: "BrowserExtension",
+                    dapp_ga_id: data.user.gaUserId
+                  }
+                )
               }
             }
           })

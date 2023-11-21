@@ -262,6 +262,11 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
+"@dappradar/global-utils@1.4.52":
+  version "1.4.52"
+  resolved "https://npm.pkg.github.com/download/@dappradar/global-utils/1.4.52/62c171dfe8347a8ee2ddab160e90b9751f3bcd93#62c171dfe8347a8ee2ddab160e90b9751f3bcd93"
+  integrity sha512-Dyt4CVDGNhBO6wp9b9OgcPysuXEkCbYSBe8tABGazgBIFKo4/PmWRb8lPVfRQlSCwenqp6tWpCVwH/XG3dD1ew==
+
 "@esbuild/android-arm64@0.17.15":
   version "0.17.15"
   resolved "https://registry.yarnpkg.com/@esbuild/android-arm64/-/android-arm64-0.17.15.tgz#893ad71f3920ccb919e1757c387756a9bca2ef42"
@@ -4232,6 +4237,11 @@ react-error-overlay@6.0.9:
   version "6.0.9"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
+
+react-ga4@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-ga4/-/react-ga4-2.1.0.tgz#56601f59d95c08466ebd6edfbf8dede55c4678f9"
+  integrity sha512-ZKS7PGNFqqMd3PJ6+C2Jtz/o1iU9ggiy8Y8nUeksgVuvNISbmrQtJiZNvC/TjDsqD0QlU5Wkgs7i+w9+OjHhhQ==
 
 react-refresh@0.14.0:
   version "0.14.0"
