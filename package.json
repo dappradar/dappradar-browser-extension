@@ -1,7 +1,7 @@
 {
   "name": "dappradar-browser-extension",
   "displayName": "DappRadar Browser extension",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "A DappRadar Browser extension",
   "author": "dragos",
   "packageManager": "npm@8.19.2",
