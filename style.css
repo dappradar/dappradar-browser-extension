@@ -18,6 +18,12 @@ body {
 }
 .stats {
   width: 100%;
+  overflow-x: auto;
+}
+
+.stat {
+  min-width: 33.3%;
+  width: 33.3%;
 }
 
 .card-title {

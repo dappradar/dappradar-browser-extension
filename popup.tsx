@@ -37,6 +37,10 @@ function DappInfo({ appURL, user }) {
     )
       .then((response) => response.json())
       .then((data) => {
+        window.gtag("event", `BrowserExtension visited ${appURL}`, {
+          event_category: "BrowserExtension",
+          event_label: appURL
+        })
         console.log("Data", data)
         setLoading(false)
         if (data.success) {
