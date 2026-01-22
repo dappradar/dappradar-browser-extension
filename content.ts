@@ -4,14 +4,6 @@ export const config: PlasmoCSConfig = {
   matches: ["https://etherscan.io/address/*"]
 }
 
-// const API_ENDPOINT =
-//   "https://api.dappradar.com/xs3c89q0fi5chjwa/dapps/smart-contract/"
-// const API_KEY = "azpexrC4SFHKq2JuWVEb7BvxZIdU2P1u"
-// const headers = {
-//   "Content-Type": "application/json",
-//   "X-BLOBR-KEY": API_KEY
-// }
-
 window.addEventListener("load", () => {
   //   run()
   //   async function run() {
